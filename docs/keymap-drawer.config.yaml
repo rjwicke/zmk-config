@@ -1,0 +1,94 @@
+parse_config:
+  trans_legend: {t: "▽", type: trans}
+  raw_binding_map:
+    "&bootloader": {t: "BOOT", h: "loader"}
+    "&sys_reset": {t: "RESET"}
+    "&soft_off": {t: "POWER OFF", h: "hold 2s", type: danger}
+    "&studio_unlock": {t: "STUDIO", h: "unlock"}
+    "&mmv MOVE_LEFT": "🖱 ←"
+    "&mmv MOVE_RIGHT": "🖱 →"
+    "&mmv MOVE_UP": "🖱 ↑"
+    "&mmv MOVE_DOWN": "🖱 ↓"
+    "&msc SCRL_LEFT": {t: "scroll ←"}
+    "&msc SCRL_RIGHT": {t: "scroll →"}
+    "&msc SCRL_UP": {t: "scroll ↑"}
+    "&msc SCRL_DOWN": {t: "scroll ↓"}
+    "&mkp MB1": {t: "L click"}
+    "&mkp MB2": {t: "R click"}
+    "&mkp MB3": {t: "M click"}
+    "&mkp MB4": {t: "back"}
+    "&mkp MB5": {t: "fwd"}
+  zmk_keycode_map:
+    LEFT: "←"
+    RIGHT: "→"
+    UP: "↑"
+    DOWN: "↓"
+    LEFT_SHIFT: Shift
+    LSHFT: Shift
+    RIGHT_SHIFT: Shift
+    LEFT_META: Win
+    LGUI: Win
+    LEFT_GUI: Win
+    LEFT_ALT: Alt
+    LCTRL: Ctrl
+    BSPC: Bksp
+    SPACE: Space
+    ENTER: Enter
+    ESCAPE: Esc
+    C_VOLUME_UP: "Vol +"
+    C_VOL_DN: "Vol −"
+    C_MUTE: Mute
+    C_PREVIOUS: Prev
+    C_NEXT: Next
+    C_PLAY_PAUSE: "Play/Pause"
+    PG_DN: PgDn
+    PG_UP: PgUp
+    SQT: "'"
+    AMPS: "&"
+    AMPERSAND: "&"
+    STAR: "*"
+    ASTERISK: "*"
+    MINUS: "-"
+    PLUS: "+"
+    EQUAL: "="
+    DLLR: "$"
+    DOLLAR: "$"
+    PRCNT: "%"
+    CARET: "^"
+    BSLH: "\\"
+    BACKSLASH: "\\"
+    EXCL: "!"
+    AT: "@"
+    HASH: "#"
+    PIPE: "|"
+    TILDE: "~"
+    GRAVE: "`"
+    UNDERSCORE: "_"
+    FSLH: "/"
+    DOT: "."
+    COMMA: ","
+    SEMI: ";"
+    COLON: ":"
+    LESS_THAN: "<"
+    GREATER_THAN: ">"
+    LEFT_BRACKET: "["
+    RIGHT_BRACKET: "]"
+    LEFT_PARENTHESIS: "("
+    RIGHT_PARENTHESIS: ")"
+    LEFT_BRACE: "{"
+    RIGHT_BRACE: "}"
+    CAPSLOCK: Caps
+    INS: Ins
+    DEL: Del
+    HOME: Home
+    END: End
+draw_config:
+  key_w: 58
+  key_h: 54
+  combo_w: 26
+  combo_h: 22
+  dark_mode: true
+  svg_extra_style: |
+    rect.danger { fill: #c0392b !important; }
+    text.danger { fill: #fff; }
+    text.label { stroke: none !important; font-size: 16px; font-weight: bold; }
