@@ -3,6 +3,8 @@ parse_config:
   raw_binding_map:
     "&bootloader": {t: "BOOT", h: "loader"}
     "&sys_reset": {t: "RESET"}
+    "&to 4": {t: "Mouse", h: "enter"}
+    "&to 0": {t: "Base", h: "exit mouse"}
     "&soft_off": {t: "POWER OFF", h: "hold 2s", type: danger}
     "&studio_unlock": {t: "STUDIO", h: "unlock"}
     "&mmv MOVE_LEFT": "🖱 ←"

@@ -10,7 +10,7 @@
  * NAV (hold right thumb):     number row 1-0 on top, arrows on A S D F, Home/PgDn/PgUp/End/Del below,
  *                             sticky Ctrl/Shift/Alt/GUI on J K L ;
  * FN (hold BOTH thumbs):      F-keys, media, Bluetooth, power off, Studio unlock
- * Nav + left pinky (Ctrl spot)      = toggle MouseNav
+ * Nav + left pinky (Ctrl spot)      = enter Mouse mode (top-right key exits)
  * Nav + right pinky (' spot)        = toggle Gaming
  */
 
@@ -74,7 +74,7 @@
             display-name = "Nav";
             bindings = <
 &kp TAB      &kp N1    &kp N2     &kp N3     &kp N4     &kp N5     &kp N6  &kp N7     &kp N8          &kp N9       &kp N0        &kp BSPC
-&tog 4       &kp LEFT  &kp DOWN   &kp UP     &kp RIGHT  &trans     &trans  &sk LCTRL  &sk LEFT_SHIFT  &sk LEFT_ALT &sk LEFT_GUI  &tog 5
+&to 4        &kp LEFT  &kp DOWN   &kp UP     &kp RIGHT  &trans     &trans  &sk LCTRL  &sk LEFT_SHIFT  &sk LEFT_ALT &sk LEFT_GUI  &tog 5
 &bootloader  &kp HOME  &kp PG_DN  &kp PG_UP  &kp END    &kp DEL    &trans  &trans     &trans          &kp INS      &trans        &trans
                                   &kp LGUI   &trans     &trans     &trans  &trans     &kp LEFT_ALT
             >;
@@ -104,11 +104,11 @@
             >;
         };
 
-        // 4 — toggled from Nav (left pinky, Ctrl spot). Exit with top-right key.
+        // 4 — entered from Nav (left pinky, Ctrl spot) with &to (bounce-proof). Exit with top-right key (&to 0 = back to Base).
         MouseNav {
             display-name = "Mouse";
             bindings = <
-&trans  &trans  &trans  &trans  &trans    &trans      &trans          &trans          &trans        &trans           &trans  &tog 4
+&trans  &trans  &trans  &trans  &trans    &trans      &trans          &trans          &trans        &trans           &trans  &to 0
 &trans  &trans  &trans  &trans  &mkp MB3  &trans      &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &trans  &trans
 &trans  &trans  &trans  &trans  &trans    &trans      &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_UP  &msc SCRL_RIGHT  &trans  &trans
                         &trans  &mkp MB4  &mkp MB1    &mkp MB2        &mkp MB5        &trans

@@ -44,6 +44,17 @@ docs/
   keymap-drawer.config.yaml    # labels/theme used to draw it
 ```
 
+## Using this for your own Corne
+
+1. Click **Use this template → Create a new repository** (or fork it).
+2. Open the **Actions** tab, enable workflows if asked, and run the build.
+3. Download `firmware.zip` from the finished run and flash it (see *Flashing*).
+4. Change the layout in `config/corne.keymap` or live in ZMK Studio.
+
+Fits any Corne (crkbd) with nice!nano-compatible controllers and the 6-column, 42-key layout. If your board has a display you want to use, set `CONFIG_ZMK_DISPLAY=y` in `config/corne.conf` and add the display shield in `build.yaml`.
+
+**When editing on GitHub, upload every changed file.** A build passes even if `corne.conf` is out of date, and missing settings (like mouse support) just silently don't work.
+
 ## Layers
 
 Thumb keys (left → right): **Win · Num/Sym · Space** | **Enter · Nav · Alt**
@@ -51,10 +62,10 @@ Thumb keys (left → right): **Win · Num/Sym · Space** | **Enter · Nav · Alt
 | # | Layer | How to reach it | What's on it |
 |---|---|---|---|
 | 0 | Base | always | QWERTY. `'` on the `;` spot, Esc on outer right, Shift on both outer bottoms. **Combos** (below). |
-| 1 | Nav | hold **right** middle thumb | Number row 1–0 · arrows on A S D F · Home/PgDn/PgUp/End/Del on Z X C V B · sticky Ctrl/Shift/Alt/Win on J K L ; · Ins on `.` · **Mouse toggle** = outer-left Ctrl spot · **Gaming toggle** = outer-right Esc spot · bootloader on outer-left bottom |
+| 1 | Nav | hold **right** middle thumb | Number row 1–0 · arrows on A S D F · Home/PgDn/PgUp/End/Del on Z X C V B · sticky Ctrl/Shift/Alt/Win on J K L ; · Ins on `.` · **Enter Mouse mode** = outer-left Ctrl spot · **Gaming toggle** = outer-right Esc spot · bootloader on outer-left bottom |
 | 2 | Num/Sym | hold **left** middle thumb | **Numpad on right hand**: U I O = 7 8 9, J K L = 4 5 6, M , . = 1 2 3, `'` spot = 0, plus `+ - * / .` around it · symbols `` ` _ & * - + = $ % ^ \ ! @ # \| ~ `` on the left hand |
 | 3 | Fn | hold **both** middle thumbs (conditional layer 1+2) | F1–F18 (left) · media keys · BT profiles 0–3 · BT clear · USB/BLE output · reset · bootloader · **Power off** = comma spot (hold 2 s) · **Studio unlock** = period spot |
-| 4 | Mouse | toggled from Nav | Move on H J K L, scroll on N M , . · L/R click on inner thumbs, back/forward on middle thumbs, middle click on F · exit = top-right key |
+| 4 | Mouse | Nav + outer-left Ctrl spot, then let go (stays on) | Move on H J K L, scroll on N M , . · L/R click on inner thumbs, back/forward on middle thumbs, middle click on F · **exit = top-right key** (back to Base) |
 | 5 | Gaming | toggled from Nav | Left half shifted one column so WASD sits under the fingers; Esc/Tab/I and T/Shift/Ctrl on the outer columns; Space on thumb · exit = Enter-thumb key |
 | 6 | Game Nums | hold left middle thumb while in Gaming | Numbers 1–0 around WASD for hotbars |
 | 7–8 | (reserved) | — | Empty slots for new layers created in ZMK Studio |
@@ -96,6 +107,8 @@ If the build ever fails with "board not found", ZMK is older than expected: chan
 
 Normal updates: flash only the left and right files. Halves stay paired.
 
+After a change that adds a new device type (e.g. turning mouse keys on), **re-pair** with each computer: remove "Corne" from its Bluetooth list, press **Fn + P** on the keyboard, pair again.
+
 **Clean start / halves won't pair:** flash `settings_reset` to **both** halves, then the normal files to both, then press reset on both halves at the same time and re-pair "Corne" in Bluetooth settings (remove the old entry first).
 
 ## ZMK Studio (remapping without rebuilding)
@@ -108,6 +121,8 @@ Normal updates: flash only the left and right files. Halves stay paired.
 **Important:** Studio edits are saved in the controller's settings storage and **override `corne.keymap`**, even across reflashes. After editing `corne.keymap` in this repo and flashing, click **Restore Stock Settings** in Studio (or flash `settings_reset`) or the old Studio layout will keep loading.
 
 Studio can't edit combos, conditional layers, or Kconfig settings — those live in this repo.
+
+**Studio shows mouse keys as "Unknown" and can't set them.** Don't change or save keys on the Mouse layer in Studio; edit `corne.keymap` instead.
 
 ## Power
 
@@ -122,7 +137,8 @@ Studio can't edit combos, conditional layers, or Kconfig settings — those live
 | `CONFIG_ZMK_DISPLAY` / `CONFIG_ZMK_RGB_UNDERGLOW` | `n` | No screen installed; both drain battery |
 | `CONFIG_ZMK_SLEEP` / `CONFIG_ZMK_IDLE_SLEEP_TIMEOUT` | `y` / `1800000` | Deep sleep after 30 min (ms) |
 | `CONFIG_ZMK_PM_SOFT_OFF` | `y` | Enables the `&soft_off` key |
-| `CONFIG_ZMK_POINTING` | `y` | Mouse keys |
+| `CONFIG_ZMK_POINTING` | `y` | Mouse keys. **Required** — without it the build still passes but mouse keys silently fall through to the letters underneath |
+| `CONFIG_ZMK_KSCAN_DEBOUNCE_RELEASE_MS` | `15` | Filters switch bounce on release (Choc switches can double-tap) |
 | `CONFIG_BT_CTLR_TX_PWR_PLUS_8` | `y` | Stronger BT signal (clone antennas are weak) |
 | `CONFIG_ZMK_BLE_EXPERIMENTAL_CONN` | `y` | Connection-stability fixes |
 | `CONFIG_ZMK_SPLIT_BLE_CENTRAL_BATTERY_LEVEL_*` | `y` | Host sees both halves' battery |
@@ -145,7 +161,8 @@ keymap -c docs/keymap-drawer.config.yaml draw keymap.yaml > docs/keymap.svg
 - Every layer's `bindings` must contain exactly **42** entries.
 - Layer indices matter: `&tog 4` = Mouse, `&tog 5` = Gaming, `&mo 6` = Game Nums, conditional layer `if-layers = <1 2>` → `then-layer = <3>` (Fn). Don't reorder layers without updating these.
 - Reserved layers (`status = "reserved"`) exist so ZMK Studio can create new layers; keep them last.
-- Behaviors used: `&kp &mo &tog &sk &bt &out &mmv &msc &mkp &soft_off &studio_unlock &bootloader &sys_reset`.
+- Behaviors used: `&kp &mo &tog &to &sk &bt &out &mmv &msc &mkp &soft_off &studio_unlock &bootloader &sys_reset`.
 - `&soft_off` has `hold-time-ms = <2000>` set at the top of the keymap.
+- Mouse mode is entered with `&to 4` and left with `&to 0` (not `&tog`), so a bouncing switch can't flip it back off.
 - The controllers are nice!nano clones; always build for the `nice_nano` board.
 - This is a wireless ZMK build. QMK/VIA/Vial/Remap firmware does not support Bluetooth on these controllers.
