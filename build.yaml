@@ -1,0 +1,20 @@
+# Corne wireless — nice!nano, no display, ZMK Studio on the left (central) half.
+# If GitHub Actions says the board isn't found, your ZMK version is older:
+# change "nice_nano//zmk" to "nice_nano_v2" on every line.
+---
+include:
+  # Left half: talks to the computer, gets Studio
+  - board: nice_nano//zmk
+    shield: corne_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+    artifact-name: corne_left_studio
+
+  # Right half
+  - board: nice_nano//zmk
+    shield: corne_right
+
+  # Flash this to BOTH halves if they ever stop pairing with each other,
+  # then flash the normal firmware back.
+  - board: nice_nano//zmk
+    shield: settings_reset
