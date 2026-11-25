@@ -1137,9 +1137,9 @@ text.label { stroke: none !important; font-size: 16px; font-weight: bold; }
 <rect rx="6" ry="6" x="-25" y="-25" width="50" height="50" class="key trans"/>
 <text x="0" y="0" class="key trans tap">▽</text>
 </g>
-<g transform="translate(216, 198)" class="key trans keypos-36">
-<rect rx="6" ry="6" x="-25" y="-25" width="50" height="50" class="key trans"/>
-<text x="0" y="0" class="key trans tap">▽</text>
+<g transform="translate(216, 198)" class="key keypos-36">
+<rect rx="6" ry="6" x="-25" y="-25" width="50" height="50" class="key"/>
+<text x="0" y="0" class="key tap">Turbo</text>
 </g>
 <g transform="translate(275, 205) rotate(15.0)" class="key keypos-37">
 <rect rx="6" ry="6" x="-25" y="-25" width="50" height="50" class="key"/>
@@ -1161,9 +1161,9 @@ text.label { stroke: none !important; font-size: 16px; font-weight: bold; }
 <rect rx="6" ry="6" x="-25" y="-25" width="50" height="50" class="key"/>
 <text x="0" y="0" class="key tap">fwd</text>
 </g>
-<g transform="translate(594, 198)" class="key trans keypos-41">
-<rect rx="6" ry="6" x="-25" y="-25" width="50" height="50" class="key trans"/>
-<text x="0" y="0" class="key trans tap">▽</text>
+<g transform="translate(594, 198)" class="key keypos-41">
+<rect rx="6" ry="6" x="-25" y="-25" width="50" height="50" class="key"/>
+<text x="0" y="0" class="key tap">Precise</text>
 </g>
 </g>
 </g>

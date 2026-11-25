@@ -26,7 +26,7 @@ GitHub Actions compiles this repo into `.uf2` firmware files that get flashed on
 - Display + RGB underglow **off** (battery life)
 - Deep sleep after **30 min** idle; any key wakes it
 - **Soft-off** key (software power switch); reset button turns it back on
-- **Mouse keys** enabled (`CONFIG_ZMK_POINTING`)
+- **Mouse keys** enabled (`CONFIG_ZMK_POINTING`), base speed 1200 (`ZMK_POINTING_DEFAULT_MOVE_VAL`, ZMK default 600), hold-for-turbo ×3 and hold-for-precise ÷3
 - Bluetooth TX power +8 dBm, experimental connection fixes, battery level of both halves reported to the host
 - Layout based on [cyb3rkun/corneGLP](https://github.com/cyb3rkun/corneGLP) (MIT), with the numpad moved to the right hand and thumb layer keys swapped
 
@@ -65,10 +65,12 @@ Thumb keys (left → right): **Win · Num/Sym · Space** | **Enter · Nav · Alt
 | 1 | Nav | hold **right** middle thumb | Number row 1–0 · arrows on A S D F · Home/PgDn/PgUp/End/Del on Z X C V B · sticky Ctrl/Shift/Alt/Win on J K L ; · Ins on `.` · **Enter Mouse mode** = outer-left Ctrl spot · **Gaming toggle** = outer-right Esc spot · bootloader on outer-left bottom |
 | 2 | Num/Sym | hold **left** middle thumb | **Numpad on right hand**: U I O = 7 8 9, J K L = 4 5 6, M , . = 1 2 3, `'` spot = 0, plus `+ - * / .` around it · symbols `` ` _ & * - + = $ % ^ \ ! @ # \| ~ `` on the left hand |
 | 3 | Fn | hold **both** middle thumbs (conditional layer 1+2) | F1–F18 (left) · media keys · BT profiles 0–3 · BT clear · USB/BLE output · reset · bootloader · **Power off** = comma spot (hold 2 s) · **Studio unlock** = period spot |
-| 4 | Mouse | Nav + outer-left Ctrl spot, then let go (stays on) | Move on H J K L, scroll on N M , . · L/R click on inner thumbs, back/forward on middle thumbs, middle click on F · **exit = top-right key** (back to Base) |
+| 4 | Mouse | Nav + outer-left Ctrl spot, then let go (stays on) | Move on H J K L, scroll on N M , . · L/R click on inner thumbs, back/forward on middle thumbs, middle click on F · **hold left outer thumb = TURBO (3× speed)**, **hold right outer thumb = PRECISE (⅓ speed)** · **exit = top-right key** (back to Base) |
 | 5 | Gaming | toggled from Nav | Left half shifted one column so WASD sits under the fingers; Esc/Tab/I and T/Shift/Ctrl on the outer columns; Space on thumb · exit = Enter-thumb key |
 | 6 | Game Nums | hold left middle thumb while in Gaming | Numbers 1–0 around WASD for hotbars |
-| 7–8 | (reserved) | — | Empty slots for new layers created in ZMK Studio |
+| 7 | Turbo | hold left outer thumb while in Mouse | All keys pass through; mouse movement ×3 (input-listener override) |
+| 8 | Precise | hold right outer thumb while in Mouse | All keys pass through; mouse movement ÷3 |
+| 9–10 | (reserved) | — | Empty slots for new layers created in ZMK Studio |
 
 ### Combos (Base layer only — press two adjacent keys together)
 
@@ -159,7 +161,7 @@ keymap -c docs/keymap-drawer.config.yaml draw keymap.yaml > docs/keymap.svg
   row 0 = `0–11`, row 1 = `12–23`, row 2 = `24–35`, thumbs = `36–41` (36 = left outer, 38 = left inner/Space, 39 = Enter, 41 = right outer).
   Combos use these numbers in `key-positions`.
 - Every layer's `bindings` must contain exactly **42** entries.
-- Layer indices matter: `&tog 4` = Mouse, `&tog 5` = Gaming, `&mo 6` = Game Nums, conditional layer `if-layers = <1 2>` → `then-layer = <3>` (Fn). Don't reorder layers without updating these.
+- Layer indices matter: `&to 4` = Mouse, `&tog 5` = Gaming, `&mo 6` = Game Nums, `&mo 7` = Turbo, `&mo 8` = Precise (also referenced by `layers = <7>` / `<8>` in the `&mmv_input_listener` overrides), conditional layer `if-layers = <1 2>` → `then-layer = <3>` (Fn). Don't reorder layers without updating these.
 - Reserved layers (`status = "reserved"`) exist so ZMK Studio can create new layers; keep them last.
 - Behaviors used: `&kp &mo &tog &to &sk &bt &out &mmv &msc &mkp &soft_off &studio_unlock &bootloader &sys_reset`.
 - `&soft_off` has `hold-time-ms = <2000>` set at the top of the keymap.
